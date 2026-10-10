@@ -58,25 +58,40 @@ SKIN_CARE_NODE_ID = os.getenv("SKIN_CARE_NODE_ID", "").strip()
 
 # Target High-Yield Categories on Amazon Now
 CATEGORIES = [
-    # Personal Care (Frequently 50% - 70%+ deals)
-    {"name": "Bath & Body", "nodeId": "204992653031", "endpoint": "category"},
-    {"name": "Hair Care", "nodeId": "204992645031", "endpoint": "category"},
-    {"name": "Oral Care", "nodeId": "205015906031", "endpoint": "category"},
+    # Fresh Produce & Meat
+    {"name": "Fresh Vegetables", "nodeId": "218833871031", "endpoint": "category"},
+    {"name": "Fresh Fruits", "nodeId": "218833884031", "endpoint": "category"},
+    {"name": "Meat & Seafood", "nodeId": "218876203031", "endpoint": "category"},
 
-    # Home Care & Cleaning
-    {"name": "Cleaners & Repellents", "nodeId": "204952388031", "endpoint": "category"},
-    {"name": "Detergent & Laundry", "nodeId": "204952381031", "endpoint": "category"},
+    # Grocery & Staples (Atta, Rice, Oil, Dal, Masala)
+    {"name": "Atta & Flours", "nodeId": "204870009031", "endpoint": "category"},
+    {"name": "Rice & Grains", "nodeId": "204870014031", "endpoint": "category"},
+    {"name": "Dals & Pulses", "nodeId": "204870007031", "endpoint": "category"},
+    {"name": "Cooking Oils & Ghee", "nodeId": "204870005031", "endpoint": "category"},
+    {"name": "Spices & Masalas", "nodeId": "204870013031", "endpoint": "category"},
 
-    # Snacks & Beverages
-    {"name": "Chips & Namkeen", "nodeId": "215540425031", "endpoint": "category"},
-    {"name": "Beverages & Drinks", "nodeId": "204924538031", "endpoint": "category"},
-    {"name": "Tea & Coffee", "nodeId": "204924535031", "endpoint": "category"},
+    # Dairy & Breakfast
+    {"name": "Fresh Milk", "nodeId": "204870018031", "endpoint": "category"},
+    {"name": "Bread & Bakery", "nodeId": "204870003031", "endpoint": "category"},
+    
+    # Snacks, Sweets & Beverages
+    {"name": "Chips & Crisps", "nodeId": "204924530031", "endpoint": "category"},
+    {"name": "Indian Namkeen", "nodeId": "215540425031", "endpoint": "category"},
+    {"name": "Wafers & Biscuits", "nodeId": "204924537031", "endpoint": "category"},
+    {"name": "Sweets & Mithai", "nodeId": "204924552031", "endpoint": "category"},
+    {"name": "Dry Fruits & Nuts", "nodeId": "204924525031", "endpoint": "category"},
+    {"name": "Cold Drinks & Sodas", "nodeId": "204924556031", "endpoint": "category"},
+    {"name": "Tea (Leaf & Bags)", "nodeId": "204924559031", "endpoint": "category"},
+    {"name": "Coffee (Instant & Filter)", "nodeId": "204924558031", "endpoint": "category"},
 
-    # Health & Baby Care
-    {"name": "Baby Care", "nodeId": "211421666031", "endpoint": "category"},
-
-    # Staples
-    {"name": "Atta, Dal & Rice", "nodeId": "204870002031", "endpoint": "category"},
+    # Ice Creams (Strictly requires 'merch' endpoint based on amazon-now-deals.js)
+    {"name": "Ice Cream Store", "nodeId": "216450600031", "endpoint": "merch"},
+    
+    # Beauty, Personal Care & Cleaning
+    {"name": "Face Creams & Moisturizers", "nodeId": "204992632031", "endpoint": "category"},
+    {"name": "Makeup & Lipsticks", "nodeId": "204992616031", "endpoint": "category"},
+    {"name": "Men Grooming & Shaving", "nodeId": "204992619031", "endpoint": "category"},
+    {"name": "Floor Cleaners (Lizol)", "nodeId": "204952368031", "endpoint": "category"},
 ]
 
 # Dynamically include Skin Care if node ID is configured
