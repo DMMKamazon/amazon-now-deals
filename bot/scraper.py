@@ -47,12 +47,12 @@ class AmazonNowScraper:
     def fetch_category_deals(self, category_info, min_discount=None):
         """
         Paginates through all widget pages for a category,
-        extracting all items with discount >= min_discount or custom rules.
+        extracting all items with discount >= min_discount.
         """
         cat_name = category_info.get("name", "Unknown Category")
         node_id = category_info.get("nodeId", "").strip()
         endpoint = category_info.get("endpoint", "category")
-        global_min_disc = config.MIN_DISCOUNT if min_discount is None else min_discount
+        min_disc = config.MIN_DISCOUNT if min_discount is None else min_discount
 
         if not node_id:
             print(f"  [⚠️ {cat_name}] Skipping: No nodeId configured.")
@@ -69,9 +69,6 @@ class AmazonNowScraper:
         page = 0
         rate_limit_count = 0
         empty_batches = 0
-        
-        # Safely load custom rules if they exist in config
-        custom_rules = getattr(config, "CUSTOM_RULES", {})
 
         while has_more and page < 30:
             url = self.build_category_url(node_id, offset, endpoint)
@@ -111,19 +108,6 @@ class AmazonNowScraper:
                         if not asin or asin in seen_asins:
                             continue
 
-                        # Extract brand
-                        raw_brand = (
-                            p.get("brand") or
-                            p.get("brandName") or
-                            p.get("brandText") or
-                            p.get("byLine") or
-                            p.get("byline") or
-                            (p.get("productOverview") or {}).get("brand") or
-                            (p.get("attributes") or {}).get("brand") or ""
-                        )
-                        brand = clean_brand_name(raw_brand)
-                        title = p.get("title", "").strip()
-
                         # Extract price and savings
                         bp_data = p.get("buyingPrice") or {}
                         lp_data = p.get("listPrice") or {}
@@ -138,20 +122,23 @@ class AmazonNowScraper:
                         if not disc and lp and bp and lp > bp:
                             disc = round(((lp - bp) / lp) * 100)
 
-                        # Determine applicable minimum discount based on custom rules
-                        applicable_min_disc = global_min_disc
-                        search_text = f"{title} {brand}".lower()
-                        
-                        for keyword, custom_disc in custom_rules.items():
-                            if keyword.lower() in search_text:
-                                applicable_min_disc = custom_disc
-                                break  # Apply the first matching custom rule
-
-                        # Only collect deals meeting the applicable minimum discount threshold
-                        if disc < applicable_min_disc:
+                        # Only collect deals meeting minimum discount threshold
+                        if disc < min_disc:
                             continue
 
                         seen_asins.add(asin)
+
+                        # Extract brand
+                        raw_brand = (
+                            p.get("brand") or
+                            p.get("brandName") or
+                            p.get("brandText") or
+                            p.get("byLine") or
+                            p.get("byline") or
+                            (p.get("productOverview") or {}).get("brand") or
+                            (p.get("attributes") or {}).get("brand") or ""
+                        )
+                        brand = clean_brand_name(raw_brand)
 
                         # Extract image
                         hero_img = p.get("heroImage") or {}
@@ -168,7 +155,7 @@ class AmazonNowScraper:
                         deal = {
                             "id": asin,
                             "asin": asin,
-                            "title": title,
+                            "title": p.get("title", "").strip(),
                             "brand": brand,
                             "fsp": bp,
                             "mrp": lp or bp,
