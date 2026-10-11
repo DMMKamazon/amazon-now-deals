@@ -37,21 +37,6 @@ AMAZON_BRAND_ID = os.getenv("AMAZON_BRAND_ID", "").strip()
 
 # Deal Filters & Runtime Settings
 MIN_DISCOUNT = int(os.getenv("MIN_DISCOUNT", "70"))
-
-# Custom discount rules based on keyword in title or brand
-CUSTOM_RULES = {
-    "aashirvaad": 40,
-    "tide": 40,
-    "atta": 40,
-    "ground coffee": 40,
-    "cashew": 50,
-    "almond": 50,
-    "ariel": 50,
-    "dal": 60,
-    "chocolate": 70,
-    "home decor": 70
-}
-
 MAX_WORKERS = int(os.getenv("MAX_WORKERS", "5"))
 INTER_PAGE_DELAY = float(os.getenv("INTER_PAGE_DELAY", "0.8"))
 CACHE_FILE = os.getenv("CACHE_FILE", os.path.join("data", "posted_deals.json"))
